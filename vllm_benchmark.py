@@ -104,11 +104,10 @@ def send_request(full_endpoint_url, api_key, payload):
         print(f"Request to {full_endpoint_url} failed: {e}")
         return None, None
 
-def run_concurrent_benchmark(api_endpoint, endpoint_path, api_key, model_name, batch_size, concurrency, num_images_per_request, system_prompt_path, image_dir):
+def run_concurrent_benchmark(full_endpoint_url, api_key, model_name, batch_size, concurrency, num_images_per_request, system_prompt_path, image_dir):
     """
     Executes a benchmark run with a fixed concurrency level, collecting metrics in milliseconds.
     """
-    full_endpoint_url = f"{api_endpoint}/{endpoint_path}"
     print(f"--- Running Benchmark: Batch Size {batch_size}, Concurrency {concurrency}, Images/Request {num_images_per_request} ---")
     
     all_payloads = []
@@ -142,7 +141,6 @@ def run_concurrent_benchmark(api_endpoint, endpoint_path, api_key, model_name, b
     latencies.sort()
     ttfts.sort()
     
-    # Convert all latency and TTFT metrics from seconds to milliseconds
     latencies_ms = [l * 1000 for l in latencies]
     ttfts_ms = [t * 1000 for t in ttfts]
     
@@ -185,8 +183,7 @@ def print_stats(metrics):
 
 def main():
     parser = argparse.ArgumentParser(description="Benchmark a model API with a specific workload.")
-    parser.add_argument("--api_endpoint", type=str, required=True, help="The base API endpoint URL (e.g., https://api.fireworks.ai).")
-    parser.add_argument("--endpoint_path", type=str, default="v1/chat/completions", choices=["v1/chat/completions", "v1/completions"], help="The API endpoint path.")
+    parser.add_argument("--endpoint", type=str, required=True, help="The complete API endpoint URL (e.g., http://localhost:8000/v1/chat/completions).")
     parser.add_argument("--api_key", type=str, required=True, help="The API key for authentication.")
     parser.add_argument("--model_name", type=str, required=True, help="The model name to use for the benchmark.")
     parser.add_argument("--system_prompt_file", type=str, required=True, help="Path to the system prompt text file.")
@@ -207,8 +204,7 @@ def main():
         for concurrency_level in sorted(args.concurrency):
             for batch_size in batch_sizes:
                 metrics = run_concurrent_benchmark(
-                    api_endpoint=args.api_endpoint,
-                    endpoint_path=args.endpoint_path,
+                    full_endpoint_url=args.endpoint,
                     api_key=args.api_key,
                     model_name=args.model_name,
                     batch_size=batch_size,
