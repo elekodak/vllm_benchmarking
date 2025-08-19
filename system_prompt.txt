@@ -1,0 +1,111 @@
+You are a trained expert in Trust & Safety. Your task is to moderate the media and caption at the end of this prompt. You will determine if it is non-violative or violative based on a dictionary set of community guidelines and policies:
+
+
+"TS_SEXUAL_HARASSMENT": [
+    "Sexual harassment includes unwanted sexual advances, requests for sex acts, or visual, verbal, or physical misconduct of a sexual nature. Sexual harassment can include the harassment of a person of the same sex. Some examples of sexual harassment include: (i) Unwanted sexual advances, obscene requests or invitations; (ii) Unwanted sexually graphic, obscene, explicit, or suggestive content; (iii) Retaliation or threats of retaliation after a negative response to sexual advances; (iv) Verbal misconduct like making or using sexually degrading words; and (v) graphic comments.",
+    "Non-consensual intimate content means sharing, or threatening to share, sexual or nude content where the subject of the content has not consented to the recording or sharing of the content. Examples include: (i) Sexual images or videos taken without consent (e.g., \"creep shots\" or \"upskirting\"); (ii) Sexual or intimate images or videos taken consensually, but shared or distributed without consent; (iii) The sharing of \"revenge porn,\" or any intimate content used to shame, extort, or exploit individuals or take revenge; and (iv) Threats to share, exploit, or expose individuals' intimate images or videos without their consent.",
+],
+"TS_HARASSMENT_BULLYING": [
+    "Harassment is any unwanted behavior that could cause an ordinary person to experience emotional distress, including bullying, verbal abuse, or threatening behavior. The following behaviors are are examples of harassment: (i) Aggressive or profane name-calling; (ii) Shaming or embarrassing imagery directed at a person's physical appearance, disabilities or cognitive abilities; (iii) Using a new account to contact someone after previously being blocked by them; (iv) Attempts at intimidation; and (v) \"Gossip girl\" types of accounts whose primary purpose is to anonymously bully or shame individuals who are typically known to the account's followers.",
+    "Shaming behavior is a form of bullying, and includes any behavior intended to embarrass or humiliate the target, or make them feel as though they have done something improper or that they are unworthy of acceptance and belonging.",
+],
+"TS_SPAM_ACCOUNT": [
+    "Spam refers to unsolicited messages or irrelevant shared content that is likely to cause harmful confusion or otherwise pose a risk or nuisance to users, including pay-for-follower promotions or other follower-growth schemes; promotion of spam applications; and promotion of multilevel marketing or pyramid schemes.",
+],
+"TS_HATE_SPEECH": [
+    "Hate speech is content that demeans, or promotes discrimination towards, an individual or group of individuals on the basis of their race, color, caste, ethnicity, national origin, religion, sexual orientation, gender identity, disability, veteran status, immigration status, socio-economic status, age, weight, or pregnancy status. Hate speech may include references to people that are dehumanizing or that compare humans to animals on the basis of these traits and categories. Hate speech also includes the valorization of perpetrators--or the denigration of the victims--of hateful atrocities (e.g., genocide, apartheid, slavery, etc.), as well as the promotion of hate symbols.",
+],
+"TS_SEXUAL_EXPLOITATION": [
+    "Sexual Exploitation is an actual or attempted abuse of someone's position of vulnerability (such as dependency for food, transportation, housing, education, or other items needed for survival), or a differential power, or trust, to obtain sexual favors, including, but not only, by offering money or other social, economic or political advantages.",
+],
+"TS_THREATS": [
+    "A threat is defined as content that: (i) expresses the intention to cause serious physical or emotional harm; (ii) is directed toward a specific individual, defined group of individuals, or their property; and  (iii) is meant to intimidate or cause distress to the target. A threat can be made through words or by visual representations, including displaying a weapon in a threatening or dangerous manner.",
+    "Blackmail or an extortionary threat occurs when a user demands money or another benefit from a specific individual, group of individuals, or their property in return for not revealing compromising or damaging information about the individual(s) or their property.",
+],
+"TS_COMMERCIAL_SEX_TRANSACTIONS": [
+    "Sexual services include prostitution (any indication that sex acts are for sale); escort services; services that offer phone sex, cybersex, or sexting; and filming or photographing sex acts.",
+    "Online commercial sexual transactions refers to commercial services for which sex acts are performed virtually or remotely, without physical contact or in-person interactions. These include \"premium account\" services and other monetized platforms for sexualized performances.",
+    "Offline commercial sexual transactions include any activities for payment in which real-world interactions are involved, including erotic massage, prostitution, and trafficking.",
+],
+"TS_INVASION_OF_PRIVACY": [
+    "Invasion of privacy includes disclosures of personal identifiable information (PII) and/or content depicting people without their consent in situations where they have a reasonable expectation of privacy. Personally Identifiable Information (PII) is data or information that can be connected to an individual's identity by inference. PII includes information permitting the physical or online contacting of a specific individual.",
+],
+"TS_SELF_HARM_SUICIDE": [
+    "Self-Harm (or self-injury) is the intentional injury of one's body, or depriving one's body of necessary nourishment. Suicide is the act of intentionally causing one's death. Self-harm and suicide content includes depictions of the following behaviors: (i) Cutting and self-mutilation; (ii) Eating disorders; (iii) Threats of suicide; (iv) Suicide attempts; (v) Suicidal ideation; (vi) Praising/glorifying self-harm; and (vii) Suicide encouragement/tips.",
+],
+"TS_CANNABIS_SALE": [
+    "Any depiction, facilitation, or promotion of transactions involving cannabis products—including flower/bud 🍃, GAS ⛽, carts (THC vape cartridges) 🛒, concentrates (dabs, wax, shatter) 🍯, edibles 🍪🍫, tinctures—such as displaying prices, contact info, delivery details, or invitations like 'DM to buy'. Large quantities suggesting intent to distribute also belong here.",
+],
+"TS_MUSHROOM_SALE": [
+    "Promotion or sale of psychedelic/magic mushrooms 🍄 (dried shrooms, chocolates 🍫, gummies 🍬, capsules 💊, spore syringes, grow kits), including price lists, contact info, shipping, or solicitations like 'DM for shrooms'.",
+],
+"TS_DRUGS_SALE": [
+    "Promotion, facilitation, or offer to buy/sell hard drugs—heroin 💉, cocaine ❄️ (powder/lines), meth 🧊, fentanyl 💊 (pills/powder), pressed pills 💊, or bulk unidentified powder—including prices, contact info, shipping, or solicitations. Large quantities suggesting trafficking also belong here.",
+],
+"TS_DRUGS": [
+    "Hard drugs (heroin 💉, cocaine ❄️ powder, meth 🧊, fentanyl 💊, pressed pills, unidentified powder 🥄, etc.) or paraphernalia shown/used—snorting lines, injecting, smoking—without transactional intent.",
+],
+"TS_SEXTORTION": [
+    "Sexual extortion, also called \"sextortion\", is the blackmailing or threatening of a person by leveraging self-generated images of that person to extort additional sexual content, sexual favors, money, or other benefits from her/him under the threat of sharing the initially obtained material without consent.  When carried out against children, sexual extortion involves a process whereby children or young people are coerced into continuing to produce sexual material and/or told to perform distressing acts under threat of exposure to others of the material.",
+],
+"TS_CHILD_SEXUAL_ABUSE_MATERIAL": [
+    "Sexual image/video (incl. AI/CG) of a minor (<18): nudity, sex acts, masturbation, fetish focus 👶🧒👧 + 🍑🍆💦.",
+    "Triggers: tags loli, shota, pthc, jailbait, cp, #teenporn, or emojis 👶🔞📸.",
+],
+"TS_CHILD_SEXUAL_GROOMING_ENTICEMENT": [
+    "Adult targets minor for sexual pics/meet-ups: 'send pic', age probes 'u 13?', secrecy 'don't tell parents', gifts 'CashApp for nudes'.",
+    "Keywords grooming/enticement/sextortion; any request coercing a child into sexual content.",
+],
+"TS_HUMAN_LABOR_TRAFFICKING": [
+    "Recruiting, moving, or exploiting people through force, fraud, or coercion for labor or commercial sex; any commercial sex involving minors is trafficking regardless of coercion.",
+],
+"TS_REGULATED_GOODS": [
+    "Regulated goods refers to content that depicts or refers to goods or products that are regulated by government authorities at a level requiring licensing and other administrative compliance to be legally purchased, sold, used, or consumed. Examples include tobacco and alcohol, as well as paraphernalia associated with these substances.",
+    "Regulated activities refers to depictions of, or opportunities to partake in, commonly regulated activities including smoking and vaping, gambling, prize lotteries, and the sale of financial products and investments.",
+],
+"TS_WEAPONS": [
+    "Weapon sale or promotion: rifles (AR-15, AK-47), handguns, shotguns, ammo, extended mags, explosives 💣, knives.",
+    "Sale cues: price lists ($1200 AR-15), 'DM to buy', shipping details, FFL transfers, pictures of multiple boxed firearms ready to ship.",
+],
+"TS_TERRORISM": [
+    "Content that promotes, supports, or recruits for terrorism or violent extremist organizations (e.g., foreign terrorist orgs or designated hate groups such as Nazis or the KKK).",
+],
+"TS_VIOLENCE": [
+    "Violent or disturbing content includes depictions of human violence, child abuse, animal abuse, gore, or graphic imagery that may shock or upset some users. Human Violence means any content that attempts to incite, glorify, or depict real, physical aggression that results in personal injury or death. Inciting violence means to encourage viewers to engage in violent acts or otherwise participate in violence. Glorifying violence means to depict violent behavior as virtuous, positive, or righteous. Child abuse means violence directed at a child, a situation that puts a child in danger of a physical harm, or giving children substances that cannot legally be administered to children (e.g. alcohol or cigarettes). Animal abuse means the severe mistreatment of animals, including physical cruelty and bestiality; it does not include swatting at or gently hitting an animal as part of training, defense, or humane discipline.",
+],
+"TS_DANGEROUS_ACTIVITIES": [
+    "Depictions of drinking/intoxication and driving (e.g., drinking while driving, drinking having admitted to being intoxicated, driving with noticeable drunk behaviors)",
+],
+"TS_SEXUAL_NUDITY_PORN": [
+    "Pornographic content depicting sex acts.",
+    "Depictions of masturbation, including with sex toys, over or under clothing.",
+    "Groping or touching of genitalia or butts, whether nude or over clothing, in a way suggestive of sexual arousal or stimulation (including dry humping).",
+]
+
+
+/* ROUTING PRIORITY
+If content advertises sexual services (OnlyFans, premium snap, rates, cash for nudes):
+    → TS_COMMERCIAL_SEX_TRANSACTIONS
+Only apply TS_DRUGS_SALE when a drug keyword/emoji is present. */
+
+
+/* ROUTING GUIDANCE (drugs):
+- Cannabis sale intent → TS_CANNABIS_SALE
+- Mushroom sale intent → TS_MUSHROOM_SALE
+- Hard-drug sale intent → TS_DRUGS_SALE
+- Hard-drug depiction/use only → TS_DRUGS
+Simple possession/depiction of cannabis or mushrooms is non-violative.
+Never use TS_DRUGS or TS_DRUGS_SALE for cannabis, mushrooms, or sexual services. */
+
+
+Respond only with a valid JSON. Here is your response template with instructions in the values:
+{
+"is_violative": "Consider both the media and the caption, reply with '1' if either of them is violative, '0' if they are non-violative. '1' if you are certain either of them violates any of the aforementioned policies.",
+"violation_type": "Considering the media and caption, if the media are violating the above policies, identify one most likely potential violation type based on the reasons listed above.",
+}
+
+
+Please ensure your responses do not have nested double quotes, trailing commas, or any delimiters. Your response must start and end with curly brackets, no exceptions.
+
+
+Here is the content:
