@@ -38,13 +38,9 @@ def create_payload(system_prompt_path, image_dir, model_name, num_images, num_to
     
     combined_prompt = f"{system_prompt} {token_str}"
     
-    # Get all available image paths
     all_image_paths = get_image_paths(image_dir)
-    
-    # Select a random sample of images to include in this payload
     selected_image_paths = random.sample(all_image_paths, min(num_images, len(all_image_paths)))
     
-    # Create the content list with text and image parts
     content_list = [{"type": "text", "text": combined_prompt}]
     for img_path in selected_image_paths:
         with open(img_path, "rb") as image_file:
@@ -67,7 +63,7 @@ def create_payload(system_prompt_path, image_dir, model_name, num_images, num_to
 
 def send_request(full_endpoint_url, api_key, payload):
     """
-    Sends a single API request to the configurable endpoint and returns latency and TTFT.
+    Sends a single API request and returns latency and TTFT in seconds.
     """
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -110,7 +106,7 @@ def send_request(full_endpoint_url, api_key, payload):
 
 def run_concurrent_benchmark(api_endpoint, endpoint_path, api_key, model_name, batch_size, concurrency, num_images_per_request, system_prompt_path, image_dir):
     """
-    Executes a benchmark run with a fixed concurrency level.
+    Executes a benchmark run with a fixed concurrency level, collecting metrics in milliseconds.
     """
     full_endpoint_url = f"{api_endpoint}/{endpoint_path}"
     print(f"--- Running Benchmark: Batch Size {batch_size}, Concurrency {concurrency}, Images/Request {num_images_per_request} ---")
@@ -135,7 +131,7 @@ def run_concurrent_benchmark(api_endpoint, endpoint_path, api_key, model_name, b
                 ttfts.append(ttft)
     
     end_time = time.time()
-    total_duration = end_time - start_time
+    total_duration_s = end_time - start_time
     
     if not latencies:
         return {}
@@ -146,22 +142,26 @@ def run_concurrent_benchmark(api_endpoint, endpoint_path, api_key, model_name, b
     latencies.sort()
     ttfts.sort()
     
+    # Convert all latency and TTFT metrics from seconds to milliseconds
+    latencies_ms = [l * 1000 for l in latencies]
+    ttfts_ms = [t * 1000 for t in ttfts]
+    
     metrics = {
         'batch_size': batch_size,
         'concurrency': concurrency,
         'num_images_per_request': num_images_per_request,
         'requests_count': total_requests,
-        'total_duration_s': total_duration,
-        'throughput_tokens_per_s': total_output_tokens / total_duration if total_duration > 0 else 0,
-        'qps': total_requests / total_duration if total_duration > 0 else 0,
-        'avg_latency_s': sum(latencies) / len(latencies),
-        'p50_latency_s': latencies[int(total_requests * 0.50)],
-        'p90_latency_s': latencies[int(total_requests * 0.90)],
-        'p99_latency_s': latencies[int(total_requests * 0.99)],
-        'avg_ttft_s': sum(ttfts) / len(ttfts) if ttfts else 0,
-        'p50_ttft_s': ttfts[int(total_requests * 0.50)] if ttfts else 0,
-        'p90_ttft_s': ttfts[int(total_requests * 0.90)] if ttfts else 0,
-        'p99_ttft_s': ttfts[int(total_requests * 0.99)] if ttfts else 0,
+        'total_duration_s': total_duration_s,
+        'throughput_tokens_per_s': total_output_tokens / total_duration_s if total_duration_s > 0 else 0,
+        'qps': total_requests / total_duration_s if total_duration_s > 0 else 0,
+        'avg_latency_ms': sum(latencies_ms) / len(latencies_ms),
+        'p50_latency_ms': latencies_ms[int(total_requests * 0.50)],
+        'p90_latency_ms': latencies_ms[int(total_requests * 0.90)],
+        'p99_latency_ms': latencies_ms[int(total_requests * 0.99)],
+        'avg_ttft_ms': sum(ttfts_ms) / len(ttfts_ms) if ttfts_ms else 0,
+        'p50_ttft_ms': ttfts_ms[int(total_requests * 0.50)] if ttfts_ms else 0,
+        'p90_ttft_ms': ttfts_ms[int(total_requests * 0.90)] if ttfts_ms else 0,
+        'p99_ttft_ms': ttfts_ms[int(total_requests * 0.99)] if ttfts_ms else 0,
     }
     
     print_stats(metrics)
@@ -173,15 +173,15 @@ def print_stats(metrics):
     print(f"Total Duration: {metrics['total_duration_s']:.2f} s")
     print(f"Throughput: {metrics['throughput_tokens_per_s']:.2f} tokens/s")
     print(f"QPS: {metrics['qps']:.2f} requests/s")
-    print(f"Average Latency: {metrics['avg_latency_s']:.2f} s")
-    print(f"P50 Latency: {metrics['p50_latency_s']:.2f} s")
-    print(f"P90 Latency: {metrics['p90_latency_s']:.2f} s")
-    print(f"P99 Latency: {metrics['p99_latency_s']:.2f} s")
-    if metrics['avg_ttft_s'] > 0:
-        print(f"Average TTFT: {metrics['avg_ttft_s']:.2f} s")
-        print(f"P50 TTFT: {metrics['p50_ttft_s']:.2f} s")
-        print(f"P90 TTFT: {metrics['p90_ttft_s']:.2f} s")
-        print(f"P99 TTFT: {metrics['p99_ttft_s']:.2f} s")
+    print(f"Average Latency: {metrics['avg_latency_ms']:.2f} ms")
+    print(f"P50 Latency: {metrics['p50_latency_ms']:.2f} ms")
+    print(f"P90 Latency: {metrics['p90_latency_ms']:.2f} ms")
+    print(f"P99 Latency: {metrics['p99_latency_ms']:.2f} ms")
+    if metrics['avg_ttft_ms'] > 0:
+        print(f"Average TTFT: {metrics['avg_ttft_ms']:.2f} ms")
+        print(f"P50 TTFT: {metrics['p50_ttft_ms']:.2f} ms")
+        print(f"P90 TTFT: {metrics['p90_ttft_ms']:.2f} ms")
+        print(f"P99 TTFT: {metrics['p99_ttft_ms']:.2f} ms")
 
 def main():
     parser = argparse.ArgumentParser(description="Benchmark a model API with a specific workload.")
@@ -196,13 +196,11 @@ def main():
     
     args = parser.parse_args()
 
-    # The original log did not specify multi-image requests, but this is how you would add them.
-    # The image path is picked at random. Ensure your image_dir has at least 4 images.
     batch_sizes = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
     output_csv_path = "benchmark_summary.csv"
     
     with open(output_csv_path, 'w', newline='') as f:
-        fieldnames = ['batch_size', 'concurrency', 'num_images_per_request', 'requests_count', 'total_duration_s', 'throughput_tokens_per_s', 'qps', 'avg_latency_s', 'p50_latency_s', 'p90_latency_s', 'p99_latency_s', 'avg_ttft_s', 'p50_ttft_s', 'p90_ttft_s', 'p99_ttft_s']
+        fieldnames = ['batch_size', 'concurrency', 'num_images_per_request', 'requests_count', 'total_duration_s', 'throughput_tokens_per_s', 'qps', 'avg_latency_ms', 'p50_latency_ms', 'p90_latency_ms', 'p99_latency_ms', 'avg_ttft_ms', 'p50_ttft_ms', 'p90_ttft_ms', 'p99_ttft_ms']
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
 
